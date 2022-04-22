@@ -17,26 +17,85 @@ init_source_dir() {
 
 init_source_dir && echo "source_dir: ${source_dir}" && source $source_dir/env.sh
 
+init_colors() {
+
+  # Use colors, but only if connected to a terminal, and that terminal
+  # supports them.
+  if hash tput >/dev/null 2>&1; then
+    local ncolors=$(tput colors 2>/dev/null || tput Co 2>/dev/null || echo -1)
+  fi
+
+  if [[ -t 1 && -n $ncolors && $ncolors -ge 8 ]]; then
+    local RED=$(tput setaf 1 2>/dev/null || tput AF 1 2>/dev/null)
+    local GREEN=$(tput setaf 2 2>/dev/null || tput AF 2 2>/dev/null)
+    local YELLOW=$(tput setaf 3 2>/dev/null || tput AF 3 2>/dev/null)
+    local BLUE=$(tput setaf 4 2>/dev/null || tput AF 4 2>/dev/null)
+    local BOLD=$(tput bold 2>/dev/null || tput md 2>/dev/null)
+    local NORMAL=$(tput sgr0 2>/dev/null || tput me 2>/dev/null)
+  else
+    local RED=""
+    local GREEN=""
+    local YELLOW=""
+    local BLUE=""
+    local BOLD=""
+    local NORMAL=""
+  fi
+}
+
+print_oh_my_bash_banner() {
+  # MOTD message :)
+  printf '%s' "$GREEN"
+  printf '%s\n' \
+    '         __                          __               __  ' \
+    '  ____  / /_     ____ ___  __  __   / /_  ____ ______/ /_ ' \
+    ' / __ \/ __ \   / __ `__ \/ / / /  / __ \/ __ `/ ___/ __ \' \
+    '/ /_/ / / / /  / / / / / / /_/ /  / /_/ / /_/ (__  ) / / /' \
+    '\____/_/ /_/  /_/ /_/ /_/\__, /  /_.___/\__,_/____/_/ /_/ ' \
+    '                        /____/                            .... is now installed!' \
+    "Please look over the ~/.bashrc file to select plugins, themes, and options"
+  printf "${BLUE}${BOLD}%s${NORMAL}\n" "To keep up on the latest news and updates, follow us on GitHub: https://github.com/ohmybash/oh-my-bash"
+}
+
 install_oh_my_bash() {
   echo "Installing Oh My Bash!..."
-  bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmybash/oh-my-bash/master/tools/install.sh)"
+  git clone https://github.com/ohmybash/oh-my-bash.git ~/.oh-my-bash
+  cp ~/.bashrc ~/.bashrc.orig.before_oh_my_bash
+  cp ~/.oh-my-bash/templates/bashrc.osh-template ~/.bashrc
+  init_colors
+  print_oh_my_bash_banner
   echo "Finished installing Oh My Bash!"
   echo "-------------------------------------------------------------------"
   echo ""
 }
 
-do_config_replacements() {
-  echo "Making config replacements (config_path: ${config_path})..."
-  sed -i 's/OSH_THEME="font"/OSH_THEME="cupcake"/g' "${config_path}"
-  sed -i 's/completions=(\n  git\n  composer\n  ssh\n)/completions=(\n  # completion_1\n  composer\n  git\n  ssh\n  # completion_2\n  # completion_n\n)/g' "${config_path}"
-  sed -i 's/aliases=(\n  general\n)/aliases=(\n  # alias_1\n  # chmod\n  general\n  # ls\n  # misc\n  # package-manager\n  # alias_2\n  # alias_n\n)/g' "${config_path}"
-  sed -i 's/plugins=(\n  git\n  bashmarks\n)/plugins=(\n  # plugin_1\n  bashmarks\n  git\n  # plugin_2\n  # plugin_n\n)/g' "${config_path}"
-  sed -i 's/OSH_THEME="font"/OSH_THEME="cupcake"/g' "${config_path}"
-  sed -i 's/OSH_THEME="font"/OSH_THEME="cupcake"/g' "${config_path}"
-  sed -i 's/OSH_THEME="font"/OSH_THEME="cupcake"/g' "${config_path}"
-  echo "Finished making config replacements:"
+customize_oh_my_bash() {
+  echo 'Customizing Oh My Bash!...'
+  local custom_path="$HOME/.oh-my-bash/custom/config.sh"
+  echo '#!/usr/bin/env bash' > "$custom_path"
+  echo '' >> "$custom_path"
+  echo 'OSH_THEME="cupcake"' >> "$custom_path"
+  printf "\
+  completions=(\n\
+    git\n\
+    composer\n\
+    ssh\n\
+  )" >> "$custom_path"
+  printf "\
+  aliases=(\n\
+    chmod\n\
+    general\n\
+    ls\n\
+    misc\n\
+  )" >> "$custom_path"
+  printf "\
+  plugins=(\n\
+    git\n\
+    bashmarks\n\
+  )" >> "$custom_path"
+  echo '' >> "$custom_path"
+  echo "Finished Customizing Oh My Bash!"
   echo "-------------------------------------------------------------------"
-  echo "$(cat $HOME/.bashrc)"
+  echo "$(cat $custom_path)"
   echo "-------------------------------------------------------------------"
   echo ""
 }
@@ -46,9 +105,6 @@ source_all_modules() {
   echo "" >> "${config_path}"
   echo "for i in \$(ls -A \$HOME/.bashrc.d/); do source \$HOME/.bashrc.d/\$i; done" >> "${config_path}"
   echo "Finished sourcing all modules in $HOME/.bashrc.d:"
-  echo "-------------------------------------------------------------------"
-  echo "$(cat $HOME/.bashrc)"
-  echo "-------------------------------------------------------------------"
   echo ""
 }
 
@@ -57,9 +113,6 @@ add_pieces_from_original_config() {
   echo "" >> "${config_path}"
   echo "source \"\$HOME/.cargo/env\"" >> "${config_path}"
   echo "Finished adding pieces from the original config:"
-  echo "-------------------------------------------------------------------"
-  echo "$(cat $HOME/.bashrc)"
-  echo "-------------------------------------------------------------------"
   echo ""
 }
 

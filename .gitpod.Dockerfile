@@ -3,6 +3,8 @@ FROM gitpod/workspace-full
 LABEL version="0.1.0"
 LABEL com.vfrsoft.containers.image.authors="dholtdev@gmail.com"
 
-WORKDIR /workspace/learn-spring
+ENV PROJECT_DIR /workspace/learn-spring
 
-RUN bash scripts/docker_setup.sh
+SHELL ["/usr/bin/env bash", "-c"]
+
+RUN "source ${PROJECT_DIR}=scripts/docker_setup.sh"

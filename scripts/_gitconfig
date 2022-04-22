@@ -1,0 +1,34 @@
+[push]
+        default = simple
+[alias]
+        lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+[credential]
+        helper = /usr/bin/gp credential-helper
+[user]
+        name = David Holt
+        email = dholtdev@gmail.com
+[alias]
+	br = branch
+	ci = commit
+	cl = clone
+	co = checkout
+	hist = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+	last = log -1 HEAD
+	plog = log --graph --decorate --relative-date --oneline
+	sdiff = diff --staged
+        st = status
+	unstage = reset HEAD --
+	add = add --all
+	bob = status
+	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue)<%an>%Creset' --abbrev-commit
+	list = config --list
+	ls = config --list
+	me = config user.email dholtdev@gmail.com
+	addhooks = config core.hooksPath ./bin/git-hooks
+[core]
+	pager = less -iXFR
+	excludesFile = ~/.gitignore
+	autocrlf = input
+
+[init]
+	defaultBranch = main

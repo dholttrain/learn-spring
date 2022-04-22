@@ -1,0 +1,4 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhistcnt =2
+let g:netrw_dirhist_2='/home/david/.config/nvim'
+let g:netrw_dirhist_1='/home/david/src/bb/dholtdev/dholt-configs/dot_config_nvim'

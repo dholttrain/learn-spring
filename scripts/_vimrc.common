@@ -1,0 +1,178 @@
+" ==============================================================================
+" Plugins - Load remaining plugins if missing
+" ==============================================================================
+
+call plug#begin('~/.vim/plugged')
+
+" Shells
+Plug 'dag/vim-fish'
+" Plug 'aliva/vim-fish'
+" Plug 'vim-scripts/fish.vim'
+
+" Collection of color schemes
+" Plug 'rafi/awesome-vim-colorschemes'
+" Plug 'crusoexia/vim-monokai'
+" Plug 'flazz/vim-colorschemes'
+Plug 'paramagicdev/vim-medic_chalk'
+Plug 'franbach/miramare'
+Plug 'joshdick/onedark.vim'
+
+Plug 'wellle/targets.vim'
+Plug 'junegunn/vim-peekaboo'
+Plug 'ap/vim-buftabline'
+Plug 'roman/golden-ratio' " Auto-expands current split
+Plug 'scrooloose/nerdtree'
+" Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+" Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+" Plug 'junegunn/fzf.vim'
+
+" Fuzzy find
+Plug 'kien/ctrlp.vim'
+Plug 'rking/ag.vim'
+
+" Elixir Language
+Plug 'elixir-editors/vim-elixir'
+Plug 'avdgaag/vim-phoenix'
+
+" Tim Pope plugins (the pathogen guy)
+Plug 'tpope/vim-dadbod' " Database connection/querying
+Plug 'tpope/vim-eunuch' " Vim sugar for the UNIX shell: https://github.com/tpope/vim-eunuch
+
+" Vue components
+Plug 'posva/vim-vue'
+
+" Json
+Plug 'elzr/vim-json'
+
+" Git
+Plug 'tpope/vim-fugitive'
+Plug 'gisphm/vim-gitignore'
+
+" Jenkins
+Plug 'martinda/jenkinsfile-vim-syntax'
+
+call plug#end()
+
+let mapleader = "\<Space>"
+
+" Use the colorscheme
+" colorscheme OceanicNext
+" colorscheme Iceberg
+" colorscheme Anderson
+" colorscheme Apprentice
+" colorscheme Atom
+" colorscheme Lucid
+" colorscheme SpaceCamp
+" colorscheme AfterGlow
+" colorscheme PaperColor
+" colorscheme Parsec
+" colorscheme Scheakur
+" colorscheme JellyBeans
+" colorscheme Lucius
+" colorscheme Monokai
+" colorscheme SlateDark
+" colorscheme medic_chalk
+" colorscheme miramare
+colorscheme onedark
+
+" ======================================================================
+" dag/vim-fish required settings (comments are from the README.md)
+" ======================================================================
+" For everything above to work you need to have fish installed in $PATH
+" and some Vim features turned on. First, tell Vim to use the syntax and
+" filetype functionality, normally in your ~/.vimrc:
+"   syntax enable
+"   filetype plugin indent on
+syntax enable
+filetype plugin indent on
+
+" Next, set some options for the fish filetype. You can do this either
+" by prefixing each line with autocmd FileType fish, or by putting them
+" in your own ~/.vim/ftplugin/fish.vim file:
+"   " Set up :make to use fish for syntax checking.
+"   compiler fish
+"
+"   " Set this to have long lines wrap inside comments.
+"   setlocal textwidth=79
+"
+"   " Enable folding of block structures in fish.
+"   setlocal foldmethod=expr
+" Set up :make to use fish for syntax checking.
+compiler fish
+
+" Set this to have long lines wrap inside comments.
+setlocal textwidth=79
+
+" Enable folding of block structures in fish.
+setlocal foldmethod=expr
+
+" To make the folds more pleasant to work with you might also want to
+" tweak settings like foldlevelstart and foldminlines, which you could
+" do either globally in your ~/.vimrc or locally as described above.
+" ======================================================================
+
+" Prevent a user from using arrow keys
+noremap <Up> <NOP>
+noremap <Down> <NOP>
+noremap <Left> <NOP>
+noremap <Right> <NOP>
+
+" ==============================================================================
+" Key Mappings
+" ==============================================================================
+
+" Visual mode: select the whole File
+nmap Q ggvG$
+
+" Swith to the next or previous tab
+nnoremap <C-t>n :tabnext<CR>
+nnoremap <C-t>p :tabprevious<CR>
+
+" Switch to the next or previous buffer
+nnoremap <C-n> :bnext<CR>
+nnoremap <C-p> :bprevious<CR>
+
+" ==============================================================================
+" Set/override variables
+" ==============================================================================
+set clipboard^=unnamed   " Use the system register as default
+set number               " shows the line number
+set textwidth=80         " line to limit to 80 chars
+set tabstop=2
+set autoindent
+set expandtab
+set softtabstop=2
+set shiftwidth=2
+set nowrap
+set laststatus=2
+set ruler
+
+" SPLITS
+set splitbelow  " open a new vertical split below
+set splitright  " open a new horizontal split on the right
+
+" Navigate splits
+" nnoremap <C-v> <C-w>v " Create vertical split
+" nnoremap <C-s> <C-w>s " Create horizontal split
+" '        <C-w> <C-w>w ' Left alone so other remaps work
+" nnoremap <C-h> <C-w>h " Cycle left through splits
+" nnoremap <C-l> <C-w>l " Cycle right through splits
+" nnoremap <C-j> <C-w>j " Cycle down through splits
+" nnoremap <C-k> <C-w>k " Cycle up through splits
+
+" Alt to C-w combos for pane creation/navigation
+nnoremap <Leader>wv  <C-w>v " Create vertical split
+nnoremap <Leader>ws  <C-w>s " Create horizontal split
+nnoremap <Leader>ww <C-w>w  " Cycle through splits
+nnoremap <Leader>wj  <C-w>j " Cycle down through splits
+nnoremap <Leader>wk  <C-w>k " Cycle up through splits
+nnoremap <Leader>wl  <C-w>l " Cycle right through splits
+nnoremap <Leader>wh  <C-w>h " Cycle left through splits
+
+"===========
+" NERDTree
+" ===========
+let NERDTreeShowHidden=1 " Always show dot (hidden) files
+let NERDTreeQuitOnOpen=1 " Close the NERDTree after opening a file
+map <Leader>nf :NERDTreeFind<CR> " Leader + nf to open the NT and find the current file
+map <Leader>nn :NERDTreeToggle<CR> " Leader + nn to toggle the NT

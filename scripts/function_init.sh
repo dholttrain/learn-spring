@@ -122,6 +122,7 @@ install_dependencies() {
 
   # Add `brew install` statements here.
   brew install httpie
+  brew install neovim
   echo "Finished installing dependencies."
   echo "-------------------------------------------------------------------"
   echo ""

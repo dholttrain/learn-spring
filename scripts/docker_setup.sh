@@ -15,6 +15,7 @@ ln -s /workspace/learn-spring/scripts/_gitconfig /home/gitpod/.gitconfig
 ln -s /workspace/learn-spring/scripts/_config/nvim /home/gitpod/.config/nvim
 ln -s /workspace/learn-spring/scripts/_vimrc.common /home/gitpod/.vimrc.common
 ln -s /workspace/learn-spring/scripts/_vimrc /home/gitpod/.vimrc
+source ~/.bashrc
 echo ""
 echo "====================================================================="
 echo "Finished main setup script."
